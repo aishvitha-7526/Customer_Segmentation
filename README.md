@@ -23,6 +23,8 @@ The main objective of this project is to identify similar groups of customers us
 - Customers are divided into different clusters.
 - Each cluster represents a unique customer segment.
 - The results can help businesses improve customer targeting and marketing decisions.
+  <img width="793" height="684" alt="image" src="https://github.com/user-attachments/assets/50bae6a6-d8bc-482e-9bad-a49b784ae1cc" />
+
 
 ## Applications
 - Customer Relationship Management
@@ -33,5 +35,3 @@ The main objective of this project is to identify similar groups of customers us
 ## Conclusion
 This project demonstrates how K-Means Clustering can be used to analyze customer behavior and identify meaningful customer segments, helping businesses make data-driven decisions.
 
-## Author
-Aishvitha Reddy
