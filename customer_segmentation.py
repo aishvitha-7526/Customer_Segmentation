@@ -2,55 +2,43 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-# Load Dataset
-data = pd.read_csv("Mall_Customers.csv")
+# Sample data
+data = {
+    'Annual Income (k$)': [15, 16, 17, 18, 25, 30, 35, 40, 45, 50,
+                           55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+    'Spending Score (1-100)': [39, 81, 6, 77, 40, 76, 6, 94, 3, 72,
+                               14, 99, 15, 77, 13, 90, 20, 88, 25, 95]
+}
 
-# Select Features
-X = data.iloc[:, [3, 4]].values
+df = pd.DataFrame(data)
+
+# Select features
+X = df[['Annual Income (k$)', 'Spending Score (1-100)']]
 
 # Elbow Method
 wcss = []
-
 for i in range(1, 11):
-    kmeans = KMeans(n_clusters=i, init='k-means++',
-                    max_iter=300, n_init=10, random_state=0)
+    kmeans = KMeans(n_clusters=i, random_state=42, n_init=10)
     kmeans.fit(X)
     wcss.append(kmeans.inertia_)
 
-plt.plot(range(1, 11), wcss)
+plt.plot(range(1, 11), wcss, marker='o')
 plt.title('Elbow Method')
 plt.xlabel('Number of Clusters')
 plt.ylabel('WCSS')
 plt.show()
 
-# KMeans Model
-kmeans = KMeans(n_clusters=5, init='k-means++',
-                max_iter=300, n_init=10, random_state=0)
-
+# K-Means with 5 clusters
+kmeans = KMeans(n_clusters=5, random_state=42, n_init=10)
 y_kmeans = kmeans.fit_predict(X)
 
-# Visualization
-plt.scatter(X[y_kmeans == 0, 0], X[y_kmeans == 0, 1],
-            s=100, c='red', label='Cluster 1')
-
-plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1],
-            s=100, c='blue', label='Cluster 2')
-
-plt.scatter(X[y_kmeans == 2, 0], X[y_kmeans == 2, 1],
-            s=100, c='green', label='Cluster 3')
-
-plt.scatter(X[y_kmeans == 3, 0], X[y_kmeans == 3, 1],
-            s=100, c='cyan', label='Cluster 4')
-
-plt.scatter(X[y_kmeans == 4, 0], X[y_kmeans == 4, 1],
-            s=100, c='magenta', label='Cluster 5')
-
+# Plot clusters
+plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=y_kmeans)
 plt.scatter(kmeans.cluster_centers_[:, 0],
             kmeans.cluster_centers_[:, 1],
-            s=300, c='yellow', label='Centroids')
+            s=200, marker='X')
 
-plt.title('Customer Segmentation')
+plt.title('Customer Segments')
 plt.xlabel('Annual Income (k$)')
-plt.ylabel('Spending Score')
-plt.legend()
+plt.ylabel('Spending Score (1-100)')
 plt.show()
